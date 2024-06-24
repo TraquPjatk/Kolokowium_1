@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Services;
+using Kolokwium_1.Dtos;
 
 namespace Zadanie5.Controllers
 {
@@ -7,22 +8,24 @@ namespace Zadanie5.Controllers
     [ApiController]
     public class MedicineController : ControllerBase
     {
-        private readonly IConfiguration _configuration;
         private readonly IMedicamentService _medicamentService;
-
 
         public MedicineController(IMedicamentService medicamentService)
         {
             _medicamentService = medicamentService;
         }
-        
+
         [HttpGet("{id}")]
-        public ActionResult GetMedicine(int id)
+        public ActionResult<MedicamentDto> GetMedicine(int id)
         {
             try
             {
-                _medicamentService.GetMedicine(id);
-                return StatusCode(StatusCodes.Status200OK);
+                var result = _medicamentService.GetMedicine(id);
+                if (result == null)
+                {
+                    return NotFound("Medicament not found");
+                }
+                return Ok(result);
             }
             catch (ArgumentException e)
             {

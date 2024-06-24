@@ -1,7 +1,9 @@
-﻿namespace Services;
+﻿using Kolokwium_1.Dtos;
 
-public interface IMedicamentService
+namespace Services
 {
-    public void GetMedicine(int id);
-
+    public interface IMedicamentService
+    {
+        public MedicamentDto GetMedicine(int id);
+    }
 }
